@@ -44,6 +44,32 @@ html, body {
 		.distance {
 			margin-top: 15px;
 		}
+		
+		.grid{
+			display: flex;
+			margin-left: 28px;
+			margin-right: 39px;
+			height: 10px;
+		}
+
+		.division{
+			width: 12.5%;
+			height: 100%;	
+			box-sizing: border-box;
+			border-right: 1px solid gray;
+		}
+		.division:first-child{
+			box-sizing: border-box;
+			border-left: 1px solid gray;	
+		}
+		.grid_nums{
+			display: flex;
+			justify-content: space-between;
+			margin-left: 4.3%;
+			width: 88%;
+			text-align: left;
+			color: gray;
+		}
 		.price{
 			font-size: 20px;
 		}

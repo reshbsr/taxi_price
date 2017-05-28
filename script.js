@@ -1,7 +1,6 @@
 $(function () {
-		var text="Стоимость поездки: ";
-        var currency=" руб.";
-        function price(length, car){
+		
+        function priceCount(length, car){
             var km_price=10;
             var base;
             switch(car){
@@ -17,14 +16,31 @@ $(function () {
             if(length<=3)
                 length=3;
             var price = base + (length - 3)*km_price;
-            return price;
+            var mess="Стоимость поездки: " + price + " руб."        
+            return mess;
+        }
+   
+        function sliderChange () {              
+                var val = $('#distance').val();
+                if($.isNumeric(val)){
+                     $( '.slider' ).slider({
+                        value: val,
+                    });
+                     if((val>=3)&&(val<=100)){
+                        var car = $('#car').val();
+                        mess=priceCount(val, car);
+                    }
+                    else
+                        mess="Введите значение от 3 до 100";   
+                }
+                else
+                    mess="Введите значение от 3 до 100";   
+                $("span.price").remove();
+                $("div.price").append("<span class='price'>" + mess +"</span>");
+                console.log(mess);
         }
 
-        var car = $('#car').val();
-        var length = $('#distance').val();
-        cost = price(length, car);
-        $("div.price").append("<span class='price'>" + text +cost + currency+"</span>"); 
-       
+
         $( '.slider' ).slider({
             range: false,
             min: 3,
@@ -33,34 +49,27 @@ $(function () {
             slide: function ( event, ui ) {
                 $('#distance').val( ui.value );
                 var car = $('#car').val();
-                cost = price(ui.value, car);
-                console.log(cost);
+                mess = priceCount(ui.value, car);
+                console.log(mess);
                 $("span.price").remove()
-                $("div.price").append("<span class='price'>" + text +cost + currency+"</span>");
+                $("div.price").append("<span class='price'>" + mess +"</span>");
             }
         });
-
-        function sliderChange () {
-            $('#distance').on('input', function (event) {
-                var val = $(this).val();
-                $( '.slider' ).slider({
-                    value: val,
-                });
-
-                var car = $('#car').val();
-                cost=price(val, car);
-                console.log(cost);
-                $("span.price").remove()
-                $("div.price").append("<span class='price'>" + text +cost + currency+"</span>");
-            });   
-        }
+    
         sliderChange();
+
+        $('#distance').on('input', function (event) {
+            sliderChange();
+        })
 
          $('#car').on('input', function (event) {
             var car = $(this).val();
             var length = $('#distance').val();
-            cost = price(length, car);
-            $("span.price").remove()
-            $("div.price").append("<span class='price'>" + text +cost + currency+"</span>");
+            if($.isNumeric(length)&&(length>=3)&&(length<=100)){
+                mess = priceCount(length, car);
+                console.log(mess);
+                $("span.price").remove()
+                $("div.price").append("<span class='price'>" + mess +"</span>");
+            }
          })
 })
